@@ -8,6 +8,7 @@ module ThemeCheck
     def on_end
       return if @theme.default_locale_json
       add_offense("Default translation file not found (for example locales/en.default.json)")
+      File.open("locales/en.default.json","w")
     end
   end
 end

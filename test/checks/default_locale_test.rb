@@ -17,4 +17,8 @@ class DefaultLocaleTest < Minitest::Test
     )
     refute(offenses.empty?)
   end
+
+  def test_creates_default_file
+    #check to see if locales/en.default.json has been created
+  end
 end
