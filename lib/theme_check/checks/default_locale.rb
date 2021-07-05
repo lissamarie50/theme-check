@@ -10,7 +10,9 @@ module ThemeCheck
       return if @theme.default_locale_json
       add_offense("Default translation file not found (for example locales/en.default.json)")
       #create the file
-      JsonFile.new('locales/en.default.json', FileSystemStorage.new('locales/en.default.json'))
+      if JsonFile.new('locales/en.default.json', FileSystemStorage.new('locales/en.default.json'))
+        add_offense("File created")
+      end
     end
   end
 end

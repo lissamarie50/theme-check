@@ -25,6 +25,7 @@ class DefaultLocaleTest < Minitest::Test
       "data/en.default.json" => "{}"
     )
     binding.pry
+    #how to test???
     refute(offenses.empty?)
   end
 end
