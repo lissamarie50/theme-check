@@ -24,6 +24,7 @@ class DefaultLocaleTest < Minitest::Test
       ThemeCheck::DefaultLocale.new,
       "data/en.default.json" => "{}"
     )
-    assert(offenses.empty?)
+    binding.pry
+    refute(offenses.empty?)
   end
 end
