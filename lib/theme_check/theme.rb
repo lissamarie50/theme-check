@@ -7,6 +7,8 @@ module ThemeCheck
     LIQUID_REGEX = /\.liquid$/i
     JSON_REGEX = /\.json$/i
 
+    attr_reader :storage
+    
     def initialize(storage)
       @storage = storage
     end
@@ -39,6 +41,12 @@ module ThemeCheck
         json_file.name.match?(DEFAULT_LOCALE_REGEXP)
       end
     end
+
+    def create_default_locale_json
+      @default_locale_json = JsonFile.new('locales/en.default.json', @storage)
+    end
+    # def default_locale_json=()
+    # end
 
     def default_locale
       if default_locale_json

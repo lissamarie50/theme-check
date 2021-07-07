@@ -38,6 +38,16 @@ module ThemeCheck
       relative_path.sub_ext('').to_s
     end
 
+    def touch
+      # storage == nil
+      # --> create new nil file :check:
+      # storage != nil
+      # --> file exists? so why are writing?
+      # what if someone wants to write new source to the file?
+      # --> some way to specify / change source/content
+      @storage.write(@relative_path, nil)
+    end
+
     def json?
       true
     end

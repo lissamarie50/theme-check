@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'fileutils'
 module ThemeCheck
   class DefaultLocale < JsonCheck
     severity :suggestion
@@ -8,11 +8,12 @@ module ThemeCheck
 
     def on_end
       return if @theme.default_locale_json
+      
+      #corrector block? (how can we ensure that only those who opt in to auto correct get their code autocorrected?)
       add_offense("Default translation file not found (for example locales/en.default.json)")
-      #create the file
-      if JsonFile.new('locales/en.default.json', FileSystemStorage.new('locales/en.default.json'))
-        add_offense("File created")
-      end
+      @theme.create_default_locale_json
+      
+      # binding.pry
     end
   end
 end
