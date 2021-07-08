@@ -4,6 +4,7 @@ require "test_helper"
 class DefaultLocaleTest < Minitest::Test
   
   def setup
+    #test to see if the theme variable's default_locale_json has changed
     @theme = make_theme(
       "templates/index.liquid" => <<~END,
         <p>
@@ -13,48 +14,29 @@ class DefaultLocaleTest < Minitest::Test
     )
   end
 
-  # def test_default_locale_file
-  #   offenses = analyze_theme(
-  #     ThemeCheck::DefaultLocale.new,
-  #     "locales/en.default.json" => "{}"
-  #   )
-  #   assert(offenses.empty?)
-  # end
+  def test_default_locale_file
+    offenses = analyze_theme(
+      ThemeCheck::DefaultLocale.new,
+      "locales/en.default.json" => "{}"
+    )
+    assert(offenses.empty?)
+  end
 
-  # def test_default_file_outside_locales
-  #   offenses = analyze_theme(
-  #     ThemeCheck::DefaultLocale.new,
-  #     "data/en.default.json" => "{}"
-  #   )
-  #   refute(offenses.empty?)
-  # end
+  def test_default_file_outside_locales
+    offenses = analyze_theme(
+      ThemeCheck::DefaultLocale.new,
+      "data/en.default.json" => "{}"
+    )
+    refute(offenses.empty?)
+  end
 
   def test_creates_default_file
-    #check to see if locales/en.default.json has been created
-    # expected_sources = @theme.templates
-    
-    expected_sources = {
-      "templates/index.liquid" => <<~END,
-        {{ x }}
-        {{ x }}
-      END
-    }
-    binding.pry
 
-    #it doesn't seem as though the fix_theme method doesn't create new files
-    sources = fix_theme(
-      ThemeCheck::DefaultLocale.new,
-      "templates/index.liquid" => <<~END,
-        {{ x }}
-        {{ x }}
-      END
-    )
+    analyzer = ThemeCheck::Analyzer.new(@theme,[ThemeCheck::DefaultLocale.new], true)
+    analyzer.analyze_theme
+    analyzer.correct_offenses
 
-    binding.pry
-
-    # sources.each do |path, source|
-    #   assert_equal(expected_sources[path], source)
-    # end
+  
     assert(@theme.default_locale_json)
   end
 end
