@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "pathname"
+require "fileutils"
 
 module ThemeCheck
   class FileSystemStorage < Storage
@@ -21,6 +22,18 @@ module ThemeCheck
 
     def write(relative_path, content)
       file(relative_path).write(content)
+    end
+
+    def touch(relative_path)
+      dir = file(relative_path).dirname.to_s
+
+      binding.pry
+
+      unless File.directory?(dir)
+        # FileUtils.mkdir_p(dir)
+        file(relative_path).dirname.mkpath
+      end
+      File.new(file(relative_path).to_s, 'w')
     end
 
     def files

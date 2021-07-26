@@ -23,6 +23,20 @@ module ThemeCheck
       @files[relative_path] = content
     end
 
+    #create new touch method
+    def touch(relative_path)
+      dir = file(relative_path).dirname.to_s
+
+      binding.pry
+
+      unless File.directory?(dir)
+        # FileUtils.mkdir_p(dir)
+        file(relative_path).dirname.mkpath
+      end
+      
+      File.new(file(relative_path).to_s, 'w')
+    end
+
     def files
       @files.keys
     end
@@ -37,6 +51,13 @@ module ThemeCheck
 
     def relative_path(absolute_path)
       Pathname.new(absolute_path).relative_path_from(@root).to_s
+    end
+
+    private
+
+    def file(name)
+      return @files[name] if @files[name]
+      @files[name] = @root.join(name)
     end
   end
 end
