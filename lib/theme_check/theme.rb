@@ -45,8 +45,6 @@ module ThemeCheck
     def create_default_locale_json
       @default_locale_json = JsonFile.new('locales/en.default.json', @storage)
     end
-    # def default_locale_json=()
-    # end
 
     def default_locale
       if default_locale_json

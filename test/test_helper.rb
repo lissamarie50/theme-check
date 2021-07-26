@@ -54,6 +54,15 @@ module Minitest
       Hash[*sources.flatten]
     end
 
+    #Returns a theme object instead of a hash (allows us to check theme.default_locale_json)
+    def fix_theme_return_theme_object(*check_classes, templates)
+      theme = make_theme(templates)
+      analyzer = ThemeCheck::Analyzer.new(theme, check_classes, true)
+      analyzer.analyze_theme
+      analyzer.correct_offenses
+      return theme
+    end
+
     def assert_offenses(output, offenses)
       # Making sure nothing blows up in the language_server
       offenses.each do |offense|

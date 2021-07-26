@@ -8,12 +8,9 @@ module ThemeCheck
 
     def on_end
       return if @theme.default_locale_json
-      
       #corrector block? (how can we ensure that only those who opt in to auto correct get their code autocorrected?)
       add_offense("Default translation file not found (for example locales/en.default.json)")
       @theme.create_default_locale_json
-      
-      # binding.pry
     end
   end
 end
